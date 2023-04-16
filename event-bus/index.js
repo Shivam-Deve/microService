@@ -11,10 +11,15 @@ const events = []
 app.post('/events', async (req, res) => {
     const event = req.body;
     events.push(event)
-    await axios.post('http://localhost:4000/events', event); // posts
-    await axios.post('http://localhost:5000/events', event); // comment
-    await axios.post('http://localhost:7000/events', event); // query
-    await axios.post('http://localhost:8000/events', event); // moderation
+    try {
+        await axios.post('http://localhost:4000/events', event); // posts
+        await axios.post('http://localhost:5000/events', event); // comment
+        await axios.post('http://localhost:8000/events', event); // moderation
+        await axios.post('http://localhost:7000/events', event); // query
+    } catch (error) {
+        console.log(Date.now(), "Error occured at event-bus")
+    }
+
 
     res.status(200).send();
 })

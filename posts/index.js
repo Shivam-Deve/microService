@@ -21,12 +21,16 @@ app.post('/posts', async (req, res) => {
         id, title
     }
 
-    await axios.post('http://localhost:4005/events', {
-        type: 'PostCreated',
-        data: {
-            id, title
-        }
-    })
+    try {
+        await axios.post('http://localhost:4005/events', {
+            type: 'PostCreated',
+            data: {
+                id, title
+            }
+        })
+    } catch (error) {
+        console.log(Date.now(), "Error occured at posts");
+    }
 
     res.status(201).send(posts[id]);
 })
